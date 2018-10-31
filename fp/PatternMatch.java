@@ -1,3 +1,10 @@
+/**
+ *  Pattern matching by visitor pattern
+ *  ===================================
+ *
+ *  Check out this post: https://zhuanlan.zhihu.com/p/46638719.
+ */
+
 public class PatternMatch {
 	public static void main(String[] args) {
 		Option<Integer> foo = Option.some(42);
