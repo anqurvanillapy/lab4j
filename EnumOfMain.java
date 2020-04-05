@@ -8,6 +8,9 @@ interface EnumOf<T> {
 
     @Nullable
     static <E extends Enum<E> & EnumOf<T>, T> E enumOf(@NotNull Class<E> e, T v) {
+        if (v == null) {
+            return null;
+        }
         for (E kind : e.getEnumConstants()) {
             if (kind.getValue() == v) {
                 return kind;
@@ -25,6 +28,9 @@ interface KvEnumOf<T, U> {
     @Nullable
     static <E extends Enum<E> & KvEnumOf<T, U>, T, U>
     U valueOf(@NotNull Class<E> e, T k) {
+        if (k == null) {
+            return null;
+        }
         for (E kind : e.getEnumConstants()) {
             if (kind.getKey() == k) {
                 return kind.getValue();
