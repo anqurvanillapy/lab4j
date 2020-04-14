@@ -38,6 +38,20 @@ interface KvEnumOf<T, U> {
         }
         return null;
     }
+
+    @Nullable
+    static <E extends Enum<E> & KvEnumOf<T, U>, T, U>
+    E enumOf(@NotNull Class<E> e, T k, U v) {
+        if (k == null || v == null) {
+            return null;
+        }
+        for (E kind : e.getEnumConstants()) {
+            if (kind.getKey() == k && kind.getValue() == v) {
+                return kind;
+            }
+        }
+        return null;
+    }
 }
 
 @AllArgsConstructor
@@ -61,12 +75,17 @@ enum KvKind implements KvEnumOf<Integer, String> {
 
 public class EnumOfMain {
     public static void main(String[] args) {
-        String s = "A";
-        Kind k = EnumOf.enumOf(Kind.class, s);
-        System.out.println(k);
+        String s0 = "A";
+        Kind k0 = EnumOf.enumOf(Kind.class, s0);
+        System.out.println(k0);
 
-        Integer n = 0;
-        String v = KvEnumOf.valueOf(KvKind.class, n);
-        System.out.println(v);
+        Integer k1 = 0;
+        String v1 = "A";
+        KvKind kv1 = KvEnumOf.enumOf(KvKind.class, k1, v1);
+        System.out.println(kv1);
+
+        Integer k2 = 0;
+        String v2 = KvEnumOf.valueOf(KvKind.class, k2);
+        System.out.println(v2);
     }
 }
