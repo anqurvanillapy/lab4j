@@ -13,8 +13,8 @@ public class Main {
         InetSocketAddress addr = new InetSocketAddress("localhost", 30000);
 
         try (RandomAccessFile file = new RandomAccessFile(filename, "r");
-             FileChannel fileChan = file.getChannel();
-             SocketChannel sockChan = SocketChannel.open()) {
+            FileChannel fileChan = file.getChannel();
+            SocketChannel sockChan = SocketChannel.open()) {
             sockChan.connect(addr);
 
             // In *nix, the system call `sendfile` is used to perform zero-copy
