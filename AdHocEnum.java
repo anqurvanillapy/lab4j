@@ -3,16 +3,16 @@ import org.jetbrains.annotations.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-interface EnumOf<T> {
+interface UnitEnum<T> {
     T getValue();
 
     @Nullable
-    static <E extends Enum<E> & EnumOf<T>, T> E enumOf(@NotNull Class<E> e, T v) {
+    static <E extends Enum<E> & UnitEnum<T>, T> E enumOf(@NotNull Class<E> e, T v) {
         if (v == null) {
             return null;
         }
         for (E kind : e.getEnumConstants()) {
-            if (kind.getValue() == v) {
+            if (kind.getValue().equals(v)) {
                 return kind;
             }
         }
@@ -20,19 +20,19 @@ interface EnumOf<T> {
     }
 }
 
-interface KvEnumOf<T, U> {
+interface PairEnum<T, U> {
     T getKey();
 
     U getValue();
 
     @Nullable
-    static <E extends Enum<E> & KvEnumOf<T, U>, T, U>
+    static <E extends Enum<E> & PairEnum<T, U>, T, U>
     U valueOf(@NotNull Class<E> e, T k) {
         if (k == null) {
             return null;
         }
         for (E kind : e.getEnumConstants()) {
-            if (kind.getKey() == k) {
+            if (kind.getKey().equals(k)) {
                 return kind.getValue();
             }
         }
@@ -40,13 +40,13 @@ interface KvEnumOf<T, U> {
     }
 
     @Nullable
-    static <E extends Enum<E> & KvEnumOf<T, U>, T, U>
+    static <E extends Enum<E> & PairEnum<T, U>, T, U>
     E enumOf(@NotNull Class<E> e, T k, U v) {
         if (k == null || v == null) {
             return null;
         }
         for (E kind : e.getEnumConstants()) {
-            if (kind.getKey() == k && kind.getValue() == v) {
+            if (kind.getKey().equals(k) && kind.getValue().equals(v)) {
                 return kind;
             }
         }
@@ -55,7 +55,7 @@ interface KvEnumOf<T, U> {
 }
 
 @AllArgsConstructor
-enum Kind implements EnumOf<String> {
+enum UnitKind implements UnitEnum<String> {
     A("A"),
     B("B");
 
@@ -65,7 +65,7 @@ enum Kind implements EnumOf<String> {
 
 @AllArgsConstructor
 @Getter
-enum KvKind implements KvEnumOf<Integer, String> {
+enum PairKind implements PairEnum<Integer, String> {
     A(0, "A"),
     B(1, "B");
 
@@ -73,19 +73,19 @@ enum KvKind implements KvEnumOf<Integer, String> {
     private final String value;
 }
 
-public class EnumOfMain {
+public class AdHocEnum {
     public static void main(String[] args) {
         String s0 = "A";
-        Kind k0 = EnumOf.enumOf(Kind.class, s0);
+        UnitKind k0 = UnitEnum.enumOf(UnitKind.class, s0);
         System.out.println(k0);
 
         Integer k1 = 0;
         String v1 = "A";
-        KvKind kv1 = KvEnumOf.enumOf(KvKind.class, k1, v1);
+        PairKind kv1 = PairEnum.enumOf(PairKind.class, k1, v1);
         System.out.println(kv1);
 
         Integer k2 = 0;
-        String v2 = KvEnumOf.valueOf(KvKind.class, k2);
+        String v2 = PairEnum.valueOf(PairKind.class, k2);
         System.out.println(v2);
     }
 }
