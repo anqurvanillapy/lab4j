@@ -7,7 +7,7 @@ public class InheritableThreadLocalMain {
     private static ThreadLocal<Integer> tl = new InheritableThreadLocal<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         tl.set(42);
 
         IntStream
