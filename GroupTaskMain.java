@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.List;
 
+//
+// TODO: Log the arguments and return values based on AspectJ.
+//
+
 public class GroupTaskMain {
     public static void main(String[] args) {
         final int itemSize = 1000;
